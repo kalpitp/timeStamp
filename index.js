@@ -110,7 +110,7 @@ app.get('/:Qpath', (req, res) => {
     }
 
 
-    date = naturalDate.getDate() +1;
+    date = naturalDate.getDate();
 
     myDate= month + " " + date + ", " + naturalDate.getFullYear();
 
