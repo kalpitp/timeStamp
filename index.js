@@ -18,35 +18,119 @@ app.get('/', function(req, res) {
 });
 
 app.get('/:Qpath', (req, res) => {
+
   var id = req.params.Qpath;
-
-  id = id.replace(/%20|\+|\//g, '');
-
-  var re = /January|Febuary|March|April|May|June|July|August|September|October|November|December/i;
-
-  var month = id.match(re);
-
-  id = id.replace(re, "");
-
-  var date = month + " " + id.slice(0, 3) + ", " + id.slice(4, 9);
-
-  var myDate = new Date(date);
-  var unix = myDate.getTime();
-
-
   var timestamp
+  var myDate
+  var unix
+  var date
+  var month
+  var re
+  var naturalDate
 
-  if (!isNaN(unix))
-    timestamp = {
-      "unix": unix,
-      "natural": date
-    }
-  else
-    timestamp = {
-      "unix": null,
-      "natural": null
+
+  if (isNaN(id)) {
+
+    id = id.replace(/%20|\+|\//g, '');
+
+    re = /January|Febuary|March|April|May|June|July|August|September|October|November|December/i;
+
+    month = id.match(re);
+
+    id = id.replace(re, "");
+
+    date = month + " " + id.slice(0, 3) + ", " + id.slice(4, 9);
+
+    myDate = new Date(date);
+    unix = myDate.getTime();
+
+    if (!isNaN(unix))
+      timestamp = {
+        "unix": unix,
+        "natural": date
+      }
+    else
+      timestamp = {
+        "unix": null,
+        "natural": null
+      }
+  } else {
+
+    naturalDate = new Date(id * 1000);
+
+    switch (naturalDate.getMonth()) {
+
+      case 0:
+        month = "January";
+        break;
+
+      case 1:
+        month = "February";
+        break;
+
+      case 2:
+        month = "March";
+        break;
+
+      case 3:
+        month = "April";
+        break;
+
+      case 4:
+        month = "May";
+        break;
+
+      case 5:
+        month = "June";
+        break;
+
+      case 6:
+        month = "July";
+        break;
+
+      case 7:
+        month = "August";
+        break;
+
+      case 8:
+        month = "September";
+        break;
+
+      case 9:
+        month = "October";
+        break;
+
+      case 10:
+        month = "November";
+        break;
+
+      case 11:
+        month = "December";
+        break;
     }
 
+
+    date = naturalDate.getDate() +1;
+
+    myDate= month + " " + date + ", " + naturalDate.getFullYear();
+
+    myDate = new Date(myDate);
+
+    unix = myDate.getTime();
+
+    if (!isNaN(unix))
+          timestamp = {
+        "unix": id,
+        "natural": month + " " + date + ", " + naturalDate.getFullYear()
+      }
+    else
+
+      timestamp = {
+        "unix": null,
+        "natural": null
+      }
+
+  }
 
   res.writeHead(200, {
     'Content-Type': 'application/json'
