@@ -1,9 +1,9 @@
 {
-  "name": "node-sample",
-  "description": "Our sample Node to Heroku app",
-  "main": "server.js",
+  "name": "timeStamp",
+  "description": "returns timesamp",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "boostrap": "^2.0.0",
